@@ -1,0 +1,16 @@
+server:
+    port: 8080
+
+spring:
+    application:
+        name: S-W-R-Social-Network-API
+    datasource:
+        initialization-mode: always
+    jpa:
+        show-sql: false
+        open-in-view: true
+        hibernate:
+            ddl-auto: update
+            use-new-id-generator-mappings: false
+    profiles:
+        active: test
