@@ -38,13 +38,13 @@ public class SaveRebelServiceTest {
 
     @Test
     @DisplayName("save a rebel test")
-    void shoudSaveRebel() throws ParseException {
+    void shouldSaveRebel() throws ParseException {
         this.saveRebelService.save(createRebel().build());
 
-        ArgumentCaptor<Rebel> argumentCaptor = ArgumentCaptor.forClass(Rebel.class);
-        verify(rebelRepository).save(argumentCaptor.capture());
+        ArgumentCaptor<Rebel> argumentCaptor = ArgumentCaptor.forClass(Rebel.class); //Create a argumentCaptor
+        verify(rebelRepository).save(argumentCaptor.capture()); // capture rebel when .save as executed
 
-        Rebel rebelResult = argumentCaptor.getValue();
+        Rebel rebelResult = argumentCaptor.getValue(); // get rebel value captured
 
         assertAll("rebel",
                 () -> assertThat(rebelResult.getName(), is("Leia Organa"))

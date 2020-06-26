@@ -45,7 +45,7 @@ public class ReportRenegadeServiceTest {
      */
     @Test
     @DisplayName("report rebel successfully")
-    void shoudReportRenegadeRebel() throws ParseException {
+    void shouldReportRenegadeRebel() throws ParseException {
         when(this.rebelRepository.findById(anyLong())).thenReturn(
                 Optional.of(createRebel().build())
         );
