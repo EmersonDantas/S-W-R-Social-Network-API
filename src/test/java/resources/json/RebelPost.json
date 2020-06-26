@@ -1,0 +1,21 @@
+{
+  "name": "Test 1",
+  "dateOfBirth": "1998-12-11",
+  "genre": "male",
+  "galaxy": "Via Láctea",
+  "base": "Base Echo",
+  "location": {
+    "latitude": 0.0,
+    "longitude": 0.0,
+    "locationName": "base"
+  },
+  "items": [
+    {
+      "name":"comida",
+      "amount":6,
+      "points":1
+    }
+  ],
+  "denunciations": 0
+
+}
