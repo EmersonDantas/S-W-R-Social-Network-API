@@ -1,6 +1,7 @@
 package br.eti.emersondantas.api.rebel;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -14,6 +15,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @RequiredArgsConstructor
 @ToString
+@EqualsAndHashCode
 @Embeddable
 public class Location implements Serializable {
 
