@@ -20,9 +20,12 @@ public class SaveRebelServiceImpl implements SaveRebelService{
     @Override
     public void save(Rebel rebel) {
         Rebel savedRebel = this.rebelRepository.save(rebel);
-        for (Item item: rebel.getItems()) {
-            item.setRebel(savedRebel);
+
+        if(savedRebel != null){
+            for (Item item: rebel.getItems()) {
+                item.setRebel(savedRebel);
+            }
+            this.itemRepository.saveAll(savedRebel.getItems());
         }
-        this.itemRepository.saveAll(savedRebel.getItems());
     }
 }

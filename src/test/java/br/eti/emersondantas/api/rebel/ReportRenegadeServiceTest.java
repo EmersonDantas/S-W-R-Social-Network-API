@@ -29,7 +29,9 @@ public class ReportRenegadeServiceTest {
 
     @Mock
     private RebelRepository rebelRepository;
+
     private ReportRenegadeRebelServiceImpl reportRenegadeRebelService;
+
     private GetRebelServiceImpl getRebelService;
 
     @BeforeEach
@@ -43,7 +45,7 @@ public class ReportRenegadeServiceTest {
      */
     @Test
     @DisplayName("report rebel successfully")
-    void reportRenegadeRebel() throws ParseException {
+    void shoudReportRenegadeRebel() throws ParseException {
         when(this.rebelRepository.findById(anyLong())).thenReturn(
                 Optional.of(createRebel().build())
         );

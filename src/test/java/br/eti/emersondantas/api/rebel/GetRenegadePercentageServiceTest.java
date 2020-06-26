@@ -22,6 +22,7 @@ public class GetRenegadePercentageServiceTest {
 
     @Mock
     private RebelRepository rebelRepository;
+
     private GetRenegadePercentageServiceImpl getRenegadePercentageService;
 
     @BeforeEach

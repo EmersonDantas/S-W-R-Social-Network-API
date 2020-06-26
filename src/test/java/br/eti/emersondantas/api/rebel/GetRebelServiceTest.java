@@ -29,6 +29,7 @@ public class GetRebelServiceTest {
 
     @Mock
     private RebelRepository rebelRepository;
+
     private GetRebelServiceImpl getRebelService;
 
     @BeforeEach

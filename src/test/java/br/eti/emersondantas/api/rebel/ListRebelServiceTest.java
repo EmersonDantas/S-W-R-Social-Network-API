@@ -31,6 +31,7 @@ public class ListRebelServiceTest {
 
     @Mock
     private RebelRepository rebelRepository;
+
     private ListRebelServiceImpl listRebelService;
 
     @BeforeEach
@@ -43,7 +44,7 @@ public class ListRebelServiceTest {
      */
     @Test
     @DisplayName("get rebel paged")
-    void getPageOfRebels() throws ParseException {
+    void shoudGetPageOfRebels() throws ParseException {
         Pageable pageable = PageRequest.of(0, 10, Sort.by(Sort.Direction.fromString("ASC"), "id"));
         when(this.listRebelService.list(pageable)).thenReturn(
                 new PageImpl<>(new ArrayList<>(Arrays.asList(createRebel().name("Chewbacca").build(), createRebel().build())))
