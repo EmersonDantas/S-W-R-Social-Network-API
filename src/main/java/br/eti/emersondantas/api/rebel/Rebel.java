@@ -34,7 +34,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @AllArgsConstructor
 @RequiredArgsConstructor
-@ToString
+@ToString(exclude = {"items"})
 @Builder(builderClassName = "Builder")
 @Entity
 public class Rebel implements Serializable {
