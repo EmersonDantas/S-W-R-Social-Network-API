@@ -1,6 +1,7 @@
 package br.eti.emersondantas.api.rebel;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,6 +14,7 @@ import lombok.ToString;
 import org.springframework.data.domain.Page;
 
 import javax.persistence.Embedded;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.util.Date;
@@ -61,6 +63,10 @@ public class RebelDTO implements Serializable {
 
     private int denunciations;
 
+    @JsonIgnore
+    @Transient
+    private final int RENEGADE_VALUE = 3;
+
     public static RebelDTO from(Rebel rebel){
         return RebelDTO.builder()
                 .id(rebel.getId())
@@ -86,6 +92,11 @@ public class RebelDTO implements Serializable {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     public Long getAge(){
         return ((new Date(System.currentTimeMillis()).getTime() - this.dateOfBirth.getTime()) /1000/60/60/24/30/12);
+    }
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    public boolean getIsRenegade(){
+        return this.denunciations >= this.RENEGADE_VALUE;
     }
 
 }
