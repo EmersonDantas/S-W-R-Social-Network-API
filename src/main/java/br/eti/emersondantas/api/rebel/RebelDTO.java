@@ -1,6 +1,7 @@
 package br.eti.emersondantas.api.rebel;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -82,6 +83,7 @@ public class RebelDTO implements Serializable {
         return pages.map(RebelDTO::from);
     }
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     public Long getAge(){
         return ((new Date(System.currentTimeMillis()).getTime() - this.dateOfBirth.getTime()) /1000/60/60/24/30/12);
     }
