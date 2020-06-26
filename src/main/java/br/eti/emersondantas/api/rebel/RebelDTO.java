@@ -82,6 +82,10 @@ public class RebelDTO implements Serializable {
         return pages.map(RebelDTO::from);
     }
 
+    public Long getAge(){
+        return ((new Date(System.currentTimeMillis()).getTime() - this.dateOfBirth.getTime()) /1000/60/60/24/30/12);
+    }
+
 }
 
 
