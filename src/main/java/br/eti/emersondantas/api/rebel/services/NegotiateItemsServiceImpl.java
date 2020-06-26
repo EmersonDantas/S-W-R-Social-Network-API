@@ -78,7 +78,7 @@ public class NegotiateItemsServiceImpl implements NegotiateItemsService{
         this.makeExchange(itemsFrom, rebelFrom, rebelTo);
     }
 
-    private void makeExchange(List<Item> items, Rebel rebelA, Rebel rebelB){
+    public void makeExchange(List<Item> items, Rebel rebelA, Rebel rebelB){
         for (Item listItem : items) {
             int index = rebelA.getItems().indexOf(listItem);
             Item rebelItem = rebelA.getItems().get(index);
