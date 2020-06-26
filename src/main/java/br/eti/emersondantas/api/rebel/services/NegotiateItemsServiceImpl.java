@@ -81,8 +81,13 @@ public class NegotiateItemsServiceImpl implements NegotiateItemsService{
             int index = rebelA.getItems().indexOf(listItem);
             Item rebelItem = rebelA.getItems().get(index);
             rebelItem.setAmount(rebelItem.getAmount() - listItem.getAmount());
-            if (rebelItem.getAmount() == 0) rebelA.getItems().remove(listItem);
+            if (rebelItem.getAmount() == 0) {
+                rebelA.getItems().remove(listItem);
+            }else{
+                listItem.setId(null);
+            }
             listItem.setRebel(rebelB);
+
             this.itemRepository.save(rebelItem);
             this.itemRepository.save(listItem);
         }
