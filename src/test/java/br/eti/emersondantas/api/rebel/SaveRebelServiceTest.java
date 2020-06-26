@@ -1,7 +1,6 @@
 package br.eti.emersondantas.api.rebel;
 
 import br.eti.emersondantas.api.rebel.services.SaveRebelServiceImpl;
-import org.assertj.core.condition.AnyOf;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
@@ -18,7 +17,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 @Tag("service")
