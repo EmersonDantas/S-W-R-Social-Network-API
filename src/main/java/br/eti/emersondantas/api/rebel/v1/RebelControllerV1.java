@@ -5,6 +5,7 @@ import br.eti.emersondantas.api.rebel.Negotiation;
 import br.eti.emersondantas.api.rebel.Rebel;
 import br.eti.emersondantas.api.rebel.RebelDTO;
 import br.eti.emersondantas.api.rebel.services.GetRebelService;
+import br.eti.emersondantas.api.rebel.services.GetRenegadePercentageService;
 import br.eti.emersondantas.api.rebel.services.ListRebelService;
 import br.eti.emersondantas.api.rebel.services.NegotiateItemsService;
 import br.eti.emersondantas.api.rebel.services.ReportRenegadeRebelService;
@@ -20,6 +21,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -50,13 +52,15 @@ public class RebelControllerV1 {
 
     private final NegotiateItemsService negotiateItemsService;
 
+    private final GetRenegadePercentageService getRenegadePercentageService;
+
     @ResponseStatus(code = HttpStatus.OK)
     @ApiOperation(value = "Returns rebel that has the received id if it exists.")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Rebel found!"),
             @ApiResponse(code = 404, message = "Rebel not found!")
     })
-    @GetMapping(value = "/{id}", produces = "application/json")
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public RebelDTO get(@PathVariable("id") Long id) {
         return RebelDTO.from(this.getRebelService.get(id));
     }
@@ -66,7 +70,7 @@ public class RebelControllerV1 {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success!")
     })
-    @GetMapping(produces = "application/json")
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public Page<RebelDTO> list(
             @RequestParam(value = "isPaged", defaultValue = "true") boolean isPaged,
             @RequestParam(value = "pageNum", defaultValue = "0") Integer pageNum,
@@ -97,7 +101,7 @@ public class RebelControllerV1 {
             @ApiResponse(code = 201, message = "Rebel created!"),
             @ApiResponse(code = 400, message = "Errors in the rebel's attributes.")
     })
-    @PostMapping(consumes = "application/json")
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public void save(@Valid @RequestBody RebelDTO rebelDto) {
         this.saveRebelService.save(Rebel.to(rebelDto));
     }
@@ -108,7 +112,7 @@ public class RebelControllerV1 {
             @ApiResponse(code = 200, message = "Location updated!"),
             @ApiResponse(code = 404, message = "Rebel not found!")
     })
-    @PatchMapping(value = "location/{id}", consumes = "application/json")
+    @PatchMapping(value = "location/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void updateLocation(@PathVariable("id") Long id, @RequestBody Location location) {
         this.updateRebelLocationService.updateLocation(id, location);
     }
@@ -120,8 +124,18 @@ public class RebelControllerV1 {
             @ApiResponse(code = 404, message = "Rebel not found!"),
             @ApiResponse(code = 400, message = "Unfair or invalid trading!")
     })
-    @PatchMapping(value = "negotiate-items/{id-from}/{id-to}", consumes = "application/json")
+    @PatchMapping(value = "negotiate-items/{id-from}/{id-to}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void negotiateItems(@PathVariable("id-from") Long idFrom, @PathVariable("id-to") Long idTo, @RequestBody Negotiation negotiation) {
         this.negotiateItemsService.negotiateItems(idFrom, idTo, negotiation.getItemsFrom(), negotiation.getItemsTo());
+    }
+
+    @ResponseStatus(code = HttpStatus.OK)
+    @ApiOperation(value = "Returns percents of renegade rebels.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Success!")
+    })
+    @GetMapping(value = "renegade-percentage", produces = MediaType.TEXT_PLAIN_VALUE)
+    public String getRenegadePercentage() {
+        return this.getRenegadePercentageService.getRenegadePercentage().toString();
     }
 }

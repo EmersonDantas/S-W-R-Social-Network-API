@@ -7,5 +7,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface RebelRepository extends JpaRepository<Rebel, Long> {
-    Page<Rebel> findAllByDenunciationsLessThan(Pageable pageable, int denunciationsValue);
+    Page<Rebel> findAllByDenunciationsLessThanEqual(Pageable pageable, int denunciationsValue);
+    Long countByDenunciationsGreaterThanEqual(int denunciationsValue);
 }
