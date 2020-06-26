@@ -1,5 +1,7 @@
 package br.eti.emersondantas.api.rebel.services;
 
+import br.eti.emersondantas.api.rebel.Item;
+import br.eti.emersondantas.api.rebel.ItemRepository;
 import br.eti.emersondantas.api.rebel.Rebel;
 import br.eti.emersondantas.api.rebel.RebelRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,9 +14,15 @@ public class SaveRebelServiceImpl implements SaveRebelService{
 
     private final RebelRepository rebelRepository;
 
+    private final ItemRepository itemRepository;
+
     @Transactional
     @Override
     public void save(Rebel rebel) {
-        this.rebelRepository.save(rebel);
+        Rebel savedRebel = this.rebelRepository.save(rebel);
+        for (Item item: rebel.getItems()) {
+            item.setRebel(savedRebel);
+        }
+        this.itemRepository.saveAll(savedRebel.getItems());
     }
 }

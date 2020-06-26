@@ -13,7 +13,6 @@ import lombok.ToString;
 
 import org.springframework.data.domain.Page;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Embedded;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -66,7 +65,7 @@ public class Rebel implements Serializable {
 
     @NotNull
     @NonNull
-    @OneToMany(mappedBy="rebel", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy="rebel", fetch = FetchType.EAGER)
     private List<Item> items = new ArrayList<>();
 
     private int denunciations;

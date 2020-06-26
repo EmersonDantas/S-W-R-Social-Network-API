@@ -9,6 +9,10 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -43,7 +47,7 @@ public class Item implements Serializable {
     private int points;
 
     @ManyToOne
-    @JoinColumn(name = "rebel_id")
+    @JoinColumn(name="rebel_id")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Rebel rebel;
 
