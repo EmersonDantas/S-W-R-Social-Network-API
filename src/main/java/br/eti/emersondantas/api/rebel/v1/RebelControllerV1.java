@@ -1,7 +1,7 @@
 package br.eti.emersondantas.api.rebel.v1;
 
-import br.eti.emersondantas.api.rebel.Item;
 import br.eti.emersondantas.api.rebel.Location;
+import br.eti.emersondantas.api.rebel.Negotiation;
 import br.eti.emersondantas.api.rebel.Rebel;
 import br.eti.emersondantas.api.rebel.RebelDTO;
 import br.eti.emersondantas.api.rebel.services.GetRebelService;
@@ -27,7 +27,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -87,7 +86,10 @@ public class RebelControllerV1 {
 
     @ResponseStatus(code = HttpStatus.OK)
     @PatchMapping(value = "negotiate-items/{id-from}/{id-to}")
-    public void negotiateItems(@PathVariable("id-from") Long idFrom, @PathVariable("id-to") Long idTo, @RequestBody List<Item> itemsFrom, @RequestBody List<Item> itemsTo){
-        this.negotiateItemsService.negotiateItems(idFrom, idTo, itemsFrom, itemsTo);
+    public void negotiateItems(@PathVariable("id-from") Long idFrom, @PathVariable("id-to") Long idTo, @RequestBody Negotiation negotiation){
+        System.out.println(idFrom);
+        System.out.println(idTo);
+        System.out.println(negotiation);
+        this.negotiateItemsService.negotiateItems(idFrom, idTo, negotiation.getItemsFrom(), negotiation.getItemsTo());
     }
 }
