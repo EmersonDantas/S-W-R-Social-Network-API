@@ -10,6 +10,10 @@ import br.eti.emersondantas.api.rebel.services.NegotiateItemsService;
 import br.eti.emersondantas.api.rebel.services.ReportRenegadeRebelService;
 import br.eti.emersondantas.api.rebel.services.SaveRebelService;
 import br.eti.emersondantas.api.rebel.services.UpdateRebelLocationService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -30,6 +34,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
+@Api(value = "Rebel")
 @RequestMapping(value = "/api/v1/rebels")
 public class RebelControllerV1 {
 
@@ -46,13 +51,22 @@ public class RebelControllerV1 {
     private final NegotiateItemsService negotiateItemsService;
 
     @ResponseStatus(code = HttpStatus.OK)
-    @GetMapping(value = "/{id}")
+    @ApiOperation(value = "Returns rebel that has the received id if it exists.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Rebel found!"),
+            @ApiResponse(code = 404, message = "Rebel not found!")
+    })
+    @GetMapping(value = "/{id}", produces = "application/json")
     public RebelDTO get(@PathVariable("id") Long id) {
         return RebelDTO.from(this.getRebelService.get(id));
     }
 
     @ResponseStatus(code = HttpStatus.OK)
-    @GetMapping
+    @ApiOperation(value = "Returns all rebels, paged or unpaged.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Success!")
+    })
+    @GetMapping(produces = "application/json")
     public Page<RebelDTO> list(
             @RequestParam(value = "isPaged", defaultValue = "true") boolean isPaged,
             @RequestParam(value = "pageNum", defaultValue = "0") Integer pageNum,
@@ -67,26 +81,47 @@ public class RebelControllerV1 {
     }
 
     @ResponseStatus(code = HttpStatus.ACCEPTED)
+    @ApiOperation(value = "report as a renegade the rebel who has the sent id.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Report received."),
+            @ApiResponse(code = 204, message = "Rebel not found!")
+    })
     @PatchMapping(value = "report-rebel/{id}")
     public void report(@PathVariable("id") Long id) {
         this.reportRenegadeRebelService.report(id);
     }
 
     @ResponseStatus(code = HttpStatus.CREATED)
-    @PostMapping
+    @ApiOperation(value = "Save a new rebel.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Rebel created!"),
+            @ApiResponse(code = 400, message = "Errors in the rebel's attributes.")
+    })
+    @PostMapping(consumes = "application/json")
     public void save(@Valid @RequestBody RebelDTO rebelDto) {
         this.saveRebelService.save(Rebel.to(rebelDto));
     }
 
     @ResponseStatus(code = HttpStatus.OK)
-    @PatchMapping(value = "location/{id}")
-    public void updateLocation(@PathVariable("id") Long id, @RequestBody Location location){
+    @ApiOperation(value = "Updates the location of the rebel who has the sent id.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Location updated!"),
+            @ApiResponse(code = 404, message = "Rebel not found!")
+    })
+    @PatchMapping(value = "location/{id}", consumes = "application/json")
+    public void updateLocation(@PathVariable("id") Long id, @RequestBody Location location) {
         this.updateRebelLocationService.updateLocation(id, location);
     }
 
     @ResponseStatus(code = HttpStatus.OK)
-    @PatchMapping(value = "negotiate-items/{id-from}/{id-to}")
-    public void negotiateItems(@PathVariable("id-from") Long idFrom, @PathVariable("id-to") Long idTo, @RequestBody Negotiation negotiation){
+    @ApiOperation(value = "Performs a fair exchange of items between non-traitorous rebels.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successful negotiation!"),
+            @ApiResponse(code = 404, message = "Rebel not found!"),
+            @ApiResponse(code = 400, message = "Unfair or invalid trading!")
+    })
+    @PatchMapping(value = "negotiate-items/{id-from}/{id-to}", consumes = "application/json")
+    public void negotiateItems(@PathVariable("id-from") Long idFrom, @PathVariable("id-to") Long idTo, @RequestBody Negotiation negotiation) {
         this.negotiateItemsService.negotiateItems(idFrom, idTo, negotiation.getItemsFrom(), negotiation.getItemsTo());
     }
 }

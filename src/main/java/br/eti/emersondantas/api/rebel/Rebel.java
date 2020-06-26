@@ -11,7 +11,6 @@ import lombok.Setter;
 import lombok.NonNull;
 import lombok.ToString;
 
-import org.hibernate.annotations.Cascade;
 import org.springframework.data.domain.Page;
 
 import javax.persistence.CascadeType;
