@@ -87,9 +87,6 @@ public class RebelControllerV1 {
     @ResponseStatus(code = HttpStatus.OK)
     @PatchMapping(value = "negotiate-items/{id-from}/{id-to}")
     public void negotiateItems(@PathVariable("id-from") Long idFrom, @PathVariable("id-to") Long idTo, @RequestBody Negotiation negotiation){
-        System.out.println(idFrom);
-        System.out.println(idTo);
-        System.out.println(negotiation);
         this.negotiateItemsService.negotiateItems(idFrom, idTo, negotiation.getItemsFrom(), negotiation.getItemsTo());
     }
 }
