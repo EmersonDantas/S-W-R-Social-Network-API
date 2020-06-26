@@ -29,7 +29,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @RequiredArgsConstructor
 @EqualsAndHashCode(of = {"id"})
-@ToString(exclude = {"rebel"})
+@ToString()
 @Entity
 public class Item implements Serializable {
 
