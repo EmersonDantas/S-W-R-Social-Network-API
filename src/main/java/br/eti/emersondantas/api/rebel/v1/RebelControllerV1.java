@@ -138,4 +138,16 @@ public class RebelControllerV1 {
     public String getRenegadePercentage() {
         return this.getRenegadePercentageService.getRenegadePercentage().toString();
     }
+
+    @ResponseStatus(code = HttpStatus.OK)
+    @ApiOperation(value = "Returns percents of rebels.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Success!")
+    })
+    @GetMapping(value = "rebels-percentage", produces = MediaType.TEXT_PLAIN_VALUE)
+    public String getRebelsPercentage() {
+        Double renegadePercentage = this.getRenegadePercentageService.getRenegadePercentage();
+        Double rebelPercentage = 100.0 - renegadePercentage;
+        return rebelPercentage.toString();
+    }
 }
