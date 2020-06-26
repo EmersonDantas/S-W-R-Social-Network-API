@@ -3,6 +3,7 @@ package br.eti.emersondantas.api.rebel.services;
 import br.eti.emersondantas.api.exceptions.ItemsAreEmptyException;
 import br.eti.emersondantas.api.exceptions.ItemsHaveDifferentScoresException;
 import br.eti.emersondantas.api.exceptions.RebelNotFoundException;
+import br.eti.emersondantas.api.exceptions.RebelRenegadeException;
 import br.eti.emersondantas.api.rebel.Item;
 import br.eti.emersondantas.api.rebel.ItemRepository;
 import br.eti.emersondantas.api.rebel.Rebel;
@@ -27,6 +28,7 @@ public class NegotiateItemsServiceImpl implements NegotiateItemsService{
         Rebel rebelFrom = this.rebelRepository.findById(idFrom).orElseThrow(RebelNotFoundException::new);
         Rebel rebelTo = this.rebelRepository.findById(idTo).orElseThrow(RebelNotFoundException::new);
 
+        if(rebelFrom.isRenegade() || rebelTo.isRenegade()) throw new RebelRenegadeException();
         if(checkItemsAreEmpty(itemsFrom, itemsTo)) throw new ItemsAreEmptyException();
         if(!checkItemsSameScore(itemsFrom, itemsTo)) throw new ItemsHaveDifferentScoresException();
         if(!checkRebelHaveThisItems(itemsFrom, rebelFrom) || !checkRebelHaveThisItems(itemsTo, rebelTo)) throw new ItemsHaveDifferentScoresException();
