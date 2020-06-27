@@ -55,12 +55,8 @@ public class SwaggerConfig {
         return new ArrayList<ResponseMessage>() {{
             add(new ResponseMessageBuilder()
                     .code(500)
-                    .message("500 message")
+                    .message("500 Internal server error!")
                     .responseModel(new ModelRef("Error"))
-                    .build());
-            add(new ResponseMessageBuilder()
-                    .code(403)
-                    .message("Forbidden!")
                     .build());
         }};
     }
