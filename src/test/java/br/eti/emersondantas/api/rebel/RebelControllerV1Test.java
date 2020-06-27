@@ -25,6 +25,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -178,7 +179,7 @@ public class RebelControllerV1Test {
 
     public static String getJson(String fileName) throws Exception {
         byte[] bytes = Files.readAllBytes(Paths.get("src/test/java/resources/json/"+fileName).toAbsolutePath());
-        return new String(bytes);
+        return new String(bytes, StandardCharsets.UTF_8);
     }
 
 }
