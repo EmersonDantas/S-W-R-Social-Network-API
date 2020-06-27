@@ -10,10 +10,14 @@ spring:
         show-sql: false
         open-in-view: true
         hibernate:
-            ddl-auto: update
+            ddl-auto: validate
             use-new-id-generator-mappings: false
     profiles:
-        active: test
+        active: dev
+    flyway:
+        enabled: true
+        baseline-on-migrate: false
+        locations: classpath:/db/migration
 
 renegade:
     value: 3
