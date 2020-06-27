@@ -15,6 +15,7 @@ import br.eti.emersondantas.api.rebel.services.SaveRebelService;
 import br.eti.emersondantas.api.rebel.services.UpdateRebelLocationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
@@ -68,7 +69,7 @@ public class RebelControllerV1 {
             @ApiResponse(code = 404, message = "Rebel not found!")
     })
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public RebelDTO get(@PathVariable("id") Long id) {
+    public RebelDTO get(@ApiParam(value = "Wanted rebel id", required = true, example = "1") @PathVariable("id") Long id) {
         return RebelDTO.from(this.getRebelService.get(id));
     }
 
@@ -98,7 +99,7 @@ public class RebelControllerV1 {
             @ApiResponse(code = 204, message = "Rebel not found!")
     })
     @PatchMapping(value = "report-rebel/{id}")
-    public void report(@PathVariable("id") Long id) {
+    public void report(@ApiParam(value = "Reported rebel id", required = true, example = "1") @PathVariable("id") Long id) {
         this.reportRenegadeRebelService.report(id);
     }
 
@@ -132,7 +133,9 @@ public class RebelControllerV1 {
             @ApiResponse(code = 400, message = "Unfair or invalid trading!")
     })
     @PatchMapping(value = "negotiate-items/{id-from}/{id-to}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void negotiateItems(@PathVariable("id-from") Long idFrom, @PathVariable("id-to") Long idTo, @RequestBody Negotiation negotiation) {
+    public void negotiateItems(@ApiParam(value = "Rebel negotiator id", required = true, example = "1") @PathVariable("id-from") Long idFrom,
+                               @ApiParam(value = "Rebel who wants to negotiate id", required = true, example = "1") @PathVariable("id-to") Long idTo,
+                               @ApiParam(value = "Negotiation items, contains items from the negotiator and the receiver", required = true) @RequestBody Negotiation negotiation) {
         this.negotiateItemsService.negotiateItems(idFrom, idTo, negotiation.getItemsFrom(), negotiation.getItemsTo());
     }
 
@@ -145,7 +148,7 @@ public class RebelControllerV1 {
     public HashMap<String, Double> getRenegadePercentage() {
         Double renegadePercentage = this.getRenegadePercentageService.getRenegadePercentage();
         HashMap<String, Double> map = new HashMap<>();
-        map.put("renegadesPercentage",renegadePercentage);
+        map.put("renegadesPercentage", renegadePercentage);
         return map;
     }
 
@@ -159,7 +162,7 @@ public class RebelControllerV1 {
         Double renegadePercentage = this.getRenegadePercentageService.getRenegadePercentage();
         Double rebelPercentage = 100.0 - renegadePercentage;
         HashMap<String, Double> map = new HashMap<>();
-        map.put("rebelsPercentage",rebelPercentage);
+        map.put("rebelsPercentage", rebelPercentage);
         return map;
     }
 
@@ -173,7 +176,7 @@ public class RebelControllerV1 {
         this.getItemsAverageService.getItemsAverage();
         Long lostPoints = this.getLostPointsByRenegadesService.getLostPointsByRenegades();
         HashMap<String, Long> map = new HashMap<>();
-        map.put("lostPointsByRenegades",lostPoints);
+        map.put("lostPointsByRenegades", lostPoints);
         return map;
     }
 
