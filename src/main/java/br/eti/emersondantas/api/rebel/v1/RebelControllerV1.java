@@ -4,6 +4,7 @@ import br.eti.emersondantas.api.rebel.Location;
 import br.eti.emersondantas.api.rebel.Negotiation;
 import br.eti.emersondantas.api.rebel.Rebel;
 import br.eti.emersondantas.api.rebel.RebelDTO;
+import br.eti.emersondantas.api.rebel.services.GetLostPointsByRenegadesService;
 import br.eti.emersondantas.api.rebel.services.GetRebelService;
 import br.eti.emersondantas.api.rebel.services.GetRenegadePercentageService;
 import br.eti.emersondantas.api.rebel.services.ListRebelService;
@@ -53,6 +54,8 @@ public class RebelControllerV1 {
     private final NegotiateItemsService negotiateItemsService;
 
     private final GetRenegadePercentageService getRenegadePercentageService;
+
+    private final GetLostPointsByRenegadesService getLostPointsByRenegadesService;
 
     @ResponseStatus(code = HttpStatus.OK)
     @ApiOperation(value = "Returns rebel that has the received id if it exists.")
@@ -149,5 +152,15 @@ public class RebelControllerV1 {
         Double renegadePercentage = this.getRenegadePercentageService.getRenegadePercentage();
         Double rebelPercentage = 100.0 - renegadePercentage;
         return rebelPercentage.toString();
+    }
+
+    @ResponseStatus(code = HttpStatus.OK)
+    @ApiOperation(value = "Returns lost points by renegades.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Success!")
+    })
+    @GetMapping(value = "renegades-lost-points", produces = MediaType.TEXT_PLAIN_VALUE)
+    public String getRenegadeLostPoints() {
+        return this.getLostPointsByRenegadesService.getLostPointsByRenegades().toString();
     }
 }
