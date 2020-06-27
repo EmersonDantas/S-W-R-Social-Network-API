@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.HashMap;
 
 @RestController
 @RequiredArgsConstructor
@@ -137,9 +138,12 @@ public class RebelControllerV1 {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success!")
     })
-    @GetMapping(value = "renegade-percentage", produces = MediaType.TEXT_PLAIN_VALUE)
-    public String getRenegadePercentage() {
-        return this.getRenegadePercentageService.getRenegadePercentage().toString();
+    @GetMapping(value = "renegade-percentage", produces = MediaType.APPLICATION_JSON_VALUE)
+    public HashMap<String, Double> getRenegadePercentage() {
+        Double renegadePercentage = this.getRenegadePercentageService.getRenegadePercentage();
+        HashMap<String, Double> map = new HashMap<>();
+        map.put("renegadesPercentage",renegadePercentage);
+        return map;
     }
 
     @ResponseStatus(code = HttpStatus.OK)
@@ -147,11 +151,13 @@ public class RebelControllerV1 {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success!")
     })
-    @GetMapping(value = "rebels-percentage", produces = MediaType.TEXT_PLAIN_VALUE)
-    public String getRebelsPercentage() {
+    @GetMapping(value = "rebels-percentage", produces = MediaType.APPLICATION_JSON_VALUE)
+    public HashMap<String, Double> getRebelsPercentage() {
         Double renegadePercentage = this.getRenegadePercentageService.getRenegadePercentage();
         Double rebelPercentage = 100.0 - renegadePercentage;
-        return rebelPercentage.toString();
+        HashMap<String, Double> map = new HashMap<>();
+        map.put("rebelsPercentage",rebelPercentage);
+        return map;
     }
 
     @ResponseStatus(code = HttpStatus.OK)
@@ -159,8 +165,11 @@ public class RebelControllerV1 {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success!")
     })
-    @GetMapping(value = "renegades-lost-points", produces = MediaType.TEXT_PLAIN_VALUE)
-    public String getRenegadeLostPoints() {
-        return this.getLostPointsByRenegadesService.getLostPointsByRenegades().toString();
+    @GetMapping(value = "renegades-lost-points", produces = MediaType.APPLICATION_JSON_VALUE)
+    public HashMap<String, Long> getRenegadeLostPoints() {
+        Long lostPoints = this.getLostPointsByRenegadesService.getLostPointsByRenegades();
+        HashMap<String, Long> map = new HashMap<>();
+        map.put("lostPointsByRenegades",lostPoints);
+        return map;
     }
 }
