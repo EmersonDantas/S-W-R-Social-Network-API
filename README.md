@@ -107,7 +107,7 @@ Para obter a porcentagem de rebeldes fieis a resistência, basta enviar uma requ
   
 Para obter a quantidade de pontos de rebeldes traidores que perdidos pela resistência, basta enviar uma requisição **GET** para **/api/v1/rebels/renegades-lost-points**  
   
-## **Quantidade média de items dos rebelde**  
+## **Quantidade média de items dos rebeldes**  
   
 Para obter a quantidade média de items dos rebeldes fieis a resistência, basta enviar uma requisição **GET** para **/api/v1/rebels/items-average**  
   
