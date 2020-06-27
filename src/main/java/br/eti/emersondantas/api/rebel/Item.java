@@ -28,6 +28,8 @@ import java.io.Serializable;
 @Entity
 public class Item implements Serializable {
 
+    private static final long serialVersionUID = -2660202316072114081L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

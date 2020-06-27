@@ -16,6 +16,10 @@ import java.util.List;
 @RequiredArgsConstructor
 @ToString
 public class Negotiation implements Serializable {
+
+    private static final long serialVersionUID = 5054504208217649675L;
+
     private List<Item> itemsFrom = new ArrayList<>();
+
     private List<Item> itemsTo = new ArrayList<>();
 }

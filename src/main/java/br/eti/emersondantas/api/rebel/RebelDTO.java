@@ -29,6 +29,8 @@ import java.util.stream.Collectors;
 @Builder(builderClassName = "Builder")
 public class RebelDTO implements Serializable {
 
+    private static final long serialVersionUID = -157348842910553181L;
+
     @NotEmpty
     @NonNull
     private Long id;

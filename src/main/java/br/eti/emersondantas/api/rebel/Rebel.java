@@ -38,6 +38,8 @@ import java.util.stream.Collectors;
 @Entity
 public class Rebel implements Serializable {
 
+    private static final long serialVersionUID = -7988612442966286011L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "rebel_generator")
     @SequenceGenerator(name = "rebel_generator", sequenceName = "rebel_sequence", allocationSize = 1)
