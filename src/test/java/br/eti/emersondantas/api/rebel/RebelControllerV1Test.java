@@ -1,5 +1,6 @@
 package br.eti.emersondantas.api.rebel;
 
+import br.eti.emersondantas.api.rebel.services.GetItemsAverageService;
 import br.eti.emersondantas.api.rebel.services.GetLostPointsByRenegadesService;
 import br.eti.emersondantas.api.rebel.services.GetRebelService;
 import br.eti.emersondantas.api.rebel.services.GetRenegadePercentageService;
@@ -58,6 +59,9 @@ public class RebelControllerV1Test {
 
     @MockBean
     private UpdateRebelLocationService updateRebelLocationService;
+
+    @MockBean
+    private GetItemsAverageService getItemsAverageService;
 
     @Test
     @DisplayName("Test /api/v1/renegades-lost-points")
