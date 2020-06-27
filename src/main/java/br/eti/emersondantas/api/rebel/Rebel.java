@@ -2,6 +2,7 @@ package br.eti.emersondantas.api.rebel;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -40,37 +41,47 @@ public class Rebel implements Serializable {
 
     private static final long serialVersionUID = -7988612442966286011L;
 
+    @ApiModelProperty(notes = "Rebel primary key", name = "id")
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "rebel_generator")
     @SequenceGenerator(name = "rebel_generator", sequenceName = "rebel_sequence", allocationSize = 1)
     private Long id;
 
+    @ApiModelProperty(notes = "Rebel name", name = "name", required = true)
     @NonNull
     private String name;
 
+    @ApiModelProperty(notes = "Rebel birth date", name = "dateOfBirth", required = true)
     @NonNull
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date dateOfBirth;
 
+    @ApiModelProperty(notes = "Rebel genre", name = "genre", required = true)
     @NonNull
     private Genre genre;
 
+    @ApiModelProperty(notes = "Rebel galaxy", name = "galaxy", required = true)
     @NonNull
     private String galaxy;
 
+    @ApiModelProperty(notes = "Rebel base", name = "base", required = true)
     @NonNull
     private String base;
 
+    @ApiModelProperty(notes = "Rebel location", name = "location")
     @Embedded
     private Location location;
 
+    @ApiModelProperty(notes = "Rebel items", name = "items", required = true)
     @NotNull
     @NonNull
     @OneToMany(mappedBy="rebel", fetch = FetchType.EAGER)
     private List<Item> items = new ArrayList<>();
 
+    @ApiModelProperty(notes = "Rebel renegade denunciations", name = "denunciations")
     private int denunciations;
 
+    @ApiModelProperty(notes = "Rebel renegade status", name = "isRenegade")
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private boolean isRenegade;
 

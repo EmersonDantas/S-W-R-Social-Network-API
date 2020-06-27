@@ -3,6 +3,7 @@ package br.eti.emersondantas.api.rebel;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -31,37 +32,46 @@ public class RebelDTO implements Serializable {
 
     private static final long serialVersionUID = -157348842910553181L;
 
+    @ApiModelProperty(notes = "Rebel primary key", name = "id", required = true)
     @NotEmpty
     @NonNull
     private Long id;
 
+    @ApiModelProperty(notes = "Rebel name", name = "name", required = true)
     @NotEmpty
     @NonNull
     private String name;
 
+    @ApiModelProperty(notes = "Rebel birth date", name = "dateOfBirth", required = true)
     @NotEmpty
     @NonNull
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date dateOfBirth;
 
+    @ApiModelProperty(notes = "Rebel genre", name = "genre", required = true)
     @NotEmpty
     @NonNull
     private String genre;
 
+    @ApiModelProperty(notes = "Rebel galaxy", name = "galaxy", required = true)
     @NotEmpty
     @NonNull
     private String galaxy;
 
+    @ApiModelProperty(notes = "Rebel base", name = "base", required = true)
     @NotEmpty
     @NonNull
     private String base;
 
+    @ApiModelProperty(notes = "Rebel location", name = "location")
     @Embedded
     private Location location;
 
+    @ApiModelProperty(notes = "Rebel items", name = "items", required = true)
     @NonNull
     private List<Item> items;
 
+    @ApiModelProperty(notes = "Rebel renegade denunciations", name = "denunciations")
     private int denunciations;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)

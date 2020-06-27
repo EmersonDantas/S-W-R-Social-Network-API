@@ -22,7 +22,7 @@ public class RebelBuilder {
                 .galaxy("Via Láctea")
                 .base("Echo")
                 .location(new Location(0.0,0.0,"base"))
-                .items(new ArrayList<>(Arrays.asList(new Item("comida", 6, 1))))
+                .items(new ArrayList<>(Arrays.asList(Item.builder().name("comida").amount(6).points(1).build())))
                 .denunciations(0);
     }
 
