@@ -10,12 +10,12 @@ public class GetRenegadePercentageServiceImpl implements GetRenegadePercentageSe
 
     private final RebelRepository rebelRepository;
 
-    private final int RENEGADE_VALUE = 3;
+
 
     @Override
     public Double getRenegadePercentage() {
         Long total = this.rebelRepository.count();
-        Long renegades = this.rebelRepository.countByDenunciationsGreaterThanEqual(RENEGADE_VALUE);
+        Long renegades = this.rebelRepository.countAllRenegades();
         return (total > 0 ? ((renegades / (total+0.0)) * 100.0): 0);
     }
 }

@@ -1,7 +1,7 @@
 package br.eti.emersondantas.api.rebel;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,7 +21,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Entity;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -70,9 +69,8 @@ public class Rebel implements Serializable {
 
     private int denunciations;
 
-    @JsonIgnore
-    @Transient
-    private final int RENEGADE_VALUE = 3;
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private boolean isRenegade;
 
     public static Rebel to(RebelDTO rebelDTO){
         return Rebel.builder()
@@ -85,6 +83,7 @@ public class Rebel implements Serializable {
                 .location(rebelDTO.getLocation())
                 .items(rebelDTO.getItems())
                 .denunciations(rebelDTO.getDenunciations())
+                .isRenegade(rebelDTO.isRenegade())
                 .build();
     }
 
@@ -96,8 +95,8 @@ public class Rebel implements Serializable {
         return pages.map(Rebel::to);
     }
 
-    public boolean isRenegade(){
-        return this.denunciations >= this.RENEGADE_VALUE;
+    public void markAsRenegade(){
+        this.isRenegade = true;
     }
 
 }

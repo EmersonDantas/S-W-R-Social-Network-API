@@ -12,10 +12,13 @@ public class ReportRenegadeRebelServiceImpl implements ReportRenegadeRebelServic
 
     private final RebelRepository rebelRepository;
 
+    private final int RENEGADE_VALUE = 3;
+
     @Override
     public void report(Long id) {
         Rebel rebel = this.rebelRepository.findById(id).orElseThrow(RebelNotFoundException::new);
         rebel.setDenunciations(rebel.getDenunciations()+1);
+        if(rebel.getDenunciations() == RENEGADE_VALUE) rebel.markAsRenegade();
         this.rebelRepository.save(rebel);
     }
 }

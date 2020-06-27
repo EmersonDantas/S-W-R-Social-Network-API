@@ -36,7 +36,7 @@ public class GetRenegadePercentageServiceTest {
     @Test
     @DisplayName("get percentage test")
     void shouldReturnRenegadePercentage(){
-        when(this.rebelRepository.countByDenunciationsGreaterThanEqual(anyInt())).thenReturn(1L);
+        when(this.rebelRepository.countAllRenegades()).thenReturn(1L);
         when(this.rebelRepository.count()).thenReturn(2L);
 
         Double percentageResult = this.getRenegadePercentageService.getRenegadePercentage();

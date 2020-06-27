@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ItemRepository extends JpaRepository<Item, Long> {
-    @Query("SELECT SUM(i.points * i.amount) FROM Item i WHERE i.rebel.denunciations >= 3")
+    @Query("SELECT SUM(i.points * i.amount) FROM Item i WHERE i.rebel.isRenegade = true")
     Long getLostPointsByRenegades();
 }

@@ -14,7 +14,6 @@ import lombok.ToString;
 import org.springframework.data.domain.Page;
 
 import javax.persistence.Embedded;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.util.Date;
@@ -63,9 +62,8 @@ public class RebelDTO implements Serializable {
 
     private int denunciations;
 
-    @JsonIgnore
-    @Transient
-    private final int RENEGADE_VALUE = 3;
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private boolean isRenegade;
 
     public static RebelDTO from(Rebel rebel){
         return RebelDTO.builder()
@@ -78,6 +76,7 @@ public class RebelDTO implements Serializable {
                 .location(rebel.getLocation())
                 .items(rebel.getItems())
                 .denunciations(rebel.getDenunciations())
+                .isRenegade(rebel.isRenegade())
                 .build();
     }
 
@@ -94,9 +93,9 @@ public class RebelDTO implements Serializable {
         return ((new Date(System.currentTimeMillis()).getTime() - this.dateOfBirth.getTime()) /1000/60/60/24/30/12);
     }
 
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    public boolean getIsRenegade(){
-        return this.denunciations >= this.RENEGADE_VALUE;
+    @JsonIgnore
+    public boolean isRenegade(){
+        return this.isRenegade;
     }
 
 }
