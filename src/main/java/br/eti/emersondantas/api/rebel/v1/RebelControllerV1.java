@@ -4,6 +4,7 @@ import br.eti.emersondantas.api.rebel.Location;
 import br.eti.emersondantas.api.rebel.Negotiation;
 import br.eti.emersondantas.api.rebel.Rebel;
 import br.eti.emersondantas.api.rebel.RebelDTO;
+import br.eti.emersondantas.api.rebel.services.GetItemsAverageService;
 import br.eti.emersondantas.api.rebel.services.GetLostPointsByRenegadesService;
 import br.eti.emersondantas.api.rebel.services.GetRebelService;
 import br.eti.emersondantas.api.rebel.services.GetRenegadePercentageService;
@@ -57,6 +58,8 @@ public class RebelControllerV1 {
     private final GetRenegadePercentageService getRenegadePercentageService;
 
     private final GetLostPointsByRenegadesService getLostPointsByRenegadesService;
+
+    private final GetItemsAverageService getItemsAverageService;
 
     @ResponseStatus(code = HttpStatus.OK)
     @ApiOperation(value = "Returns rebel that has the received id if it exists.")
@@ -167,9 +170,20 @@ public class RebelControllerV1 {
     })
     @GetMapping(value = "renegades-lost-points", produces = MediaType.APPLICATION_JSON_VALUE)
     public HashMap<String, Long> getRenegadeLostPoints() {
+        this.getItemsAverageService.getItemsAverage();
         Long lostPoints = this.getLostPointsByRenegadesService.getLostPointsByRenegades();
         HashMap<String, Long> map = new HashMap<>();
         map.put("lostPointsByRenegades",lostPoints);
         return map;
+    }
+
+    @ResponseStatus(code = HttpStatus.OK)
+    @ApiOperation(value = "Returns average of amount items.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Success!")
+    })
+    @GetMapping(value = "items-average", produces = MediaType.APPLICATION_JSON_VALUE)
+    public HashMap<String, Long> getAverangeOfItems() {
+        return this.getItemsAverageService.getItemsAverage();
     }
 }
