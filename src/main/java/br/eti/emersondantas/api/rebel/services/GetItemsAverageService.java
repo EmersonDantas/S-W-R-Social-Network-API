@@ -5,5 +5,5 @@ import java.util.HashMap;
 @FunctionalInterface
 public interface GetItemsAverageService {
 
-    HashMap<String, Long> getItemsAverage();
+    HashMap<String, Double> getItemsAverage();
 }

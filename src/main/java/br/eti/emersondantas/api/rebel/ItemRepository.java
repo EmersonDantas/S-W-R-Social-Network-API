@@ -15,5 +15,5 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
     List<String> getAllDistinctName();
 
     @Query("SELECT AVG(i.amount) FROM Item i WHERE i.name = ?1 AND i.rebel.isRenegade = FALSE")
-    Long getAverageOfItemsWithThatName(String name);
+    Double getAverageOfItemsWithThatName(String name);
 }

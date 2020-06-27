@@ -183,7 +183,7 @@ public class RebelControllerV1 {
             @ApiResponse(code = 200, message = "Success!")
     })
     @GetMapping(value = "items-average", produces = MediaType.APPLICATION_JSON_VALUE)
-    public HashMap<String, Long> getAverangeOfItems() {
+    public HashMap<String, Double> getAverangeOfItems() {
         return this.getItemsAverageService.getItemsAverage();
     }
 }
