@@ -12,10 +12,10 @@ spring:
     profiles:
         active: test #dev or test
     hibernate:
-        ddl-auto: none #change to validate when dev ou prod profile as active
+        ddl-auto: none #change to validate when dev ou prod profile as active or change to none when test profile is active
         use-new-id-generator-mappings: false
     flyway:
-        enabled: false #change to false when test profile as active
+        enabled: false #change to false when test profile as active or change to true when dev profile is active
         baseline-on-migrate: false
         locations: classpath:/db/migration
 
