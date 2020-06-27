@@ -4,16 +4,15 @@
 Foi usado no projeto:
 * Springboot - 2.3.1-RELEASE
 * JPA
-* HIBERNATE
-* JAVAX VALIDATOR
-* H2 DATABASE
-* POSTGRESQL
-* LOMBOK
-* FLYWAY
-* JUNIT
-* MOCKITO MockMVC
-* HAMCREST
-* SWAGGER
+* Hibernate
+* H2 Database
+* PostgreSQL
+* Lombok
+* Flyway
+* Junit
+* Mockito MockMVC
+* Hamcrest
+* Swagger
 
 ## **Negociação de itens**  
   
