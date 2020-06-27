@@ -9,13 +9,13 @@ spring:
     jpa:
         show-sql: false
         open-in-view: true
-        hibernate:
-            ddl-auto: validate
-            use-new-id-generator-mappings: false
     profiles:
-        active: dev
+        active: test #dev or test
+    hibernate:
+        ddl-auto: none #change to validate when dev ou prod profile as active
+        use-new-id-generator-mappings: false
     flyway:
-        enabled: true
+        enabled: false #change to false when test profile as active
         baseline-on-migrate: false
         locations: classpath:/db/migration
 
