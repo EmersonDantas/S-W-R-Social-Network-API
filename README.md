@@ -2,6 +2,8 @@
 ## To access full documentation: Start the API and enter in http://localhost:8080/swagger-ui.html  
 
 Foi usado no projeto:
+* Java 8
+* Maven
 * Springboot - 2.3.1-RELEASE
 * JPA
 * Hibernate
