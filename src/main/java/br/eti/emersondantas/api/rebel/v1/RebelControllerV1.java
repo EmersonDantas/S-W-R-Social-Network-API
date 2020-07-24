@@ -4,15 +4,7 @@ import br.eti.emersondantas.api.rebel.Location;
 import br.eti.emersondantas.api.rebel.Negotiation;
 import br.eti.emersondantas.api.rebel.Rebel;
 import br.eti.emersondantas.api.rebel.RebelDTO;
-import br.eti.emersondantas.api.rebel.services.GetItemsAverageService;
-import br.eti.emersondantas.api.rebel.services.GetLostPointsByRenegadesService;
-import br.eti.emersondantas.api.rebel.services.GetRebelService;
-import br.eti.emersondantas.api.rebel.services.GetRenegadePercentageService;
-import br.eti.emersondantas.api.rebel.services.ListRebelService;
-import br.eti.emersondantas.api.rebel.services.NegotiateItemsService;
-import br.eti.emersondantas.api.rebel.services.ReportRenegadeRebelService;
-import br.eti.emersondantas.api.rebel.services.SaveRebelService;
-import br.eti.emersondantas.api.rebel.services.UpdateRebelLocationService;
+import br.eti.emersondantas.api.rebel.services.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -37,6 +29,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.HashMap;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 @RestController
 @RequiredArgsConstructor
@@ -61,6 +55,10 @@ public class RebelControllerV1 {
     private final GetLostPointsByRenegadesService getLostPointsByRenegadesService;
 
     private final GetItemsAverageService getItemsAverageService;
+
+    private final NotifyAllRebelsAsyncService notifyAllRebelsAsyncService;
+
+    private final NotifyAllRebelsAsyncWithResultService notifyAllRebelsAsyncWithResultService;
 
     @ResponseStatus(code = HttpStatus.OK)
     @ApiOperation(value = "Returns rebel that has the received id if it exists.")
@@ -188,5 +186,24 @@ public class RebelControllerV1 {
     @GetMapping(value = "items-average", produces = MediaType.APPLICATION_JSON_VALUE)
     public HashMap<String, Double> getAverangeOfItems() {
         return this.getItemsAverageService.getItemsAverage();
+    }
+
+    @ResponseStatus(code = HttpStatus.OK)
+    @ApiOperation(value = "Notifies a message to all rebels.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Notifications sent.")
+    })
+    @PatchMapping(value = "notify-rebels")
+    public void notifyAllRebels(@ApiParam(value = "wait", required = false, example = "true") @RequestParam(value = "wait", defaultValue = "false") boolean waitForAsyncResult, @RequestBody HashMap<String, String> messageJson) {
+        if(waitForAsyncResult){
+            Future<Boolean> result = this.notifyAllRebelsAsyncWithResultService.notifyAllRebels(messageJson.get("message"));
+            try {
+                System.out.println(result.get());
+            } catch (InterruptedException | ExecutionException e) {
+                throw new RuntimeException("Error when notify all rebels.");
+            }
+        }else{
+            this.notifyAllRebelsAsyncService.notifyAllRebels(messageJson.get("message"));
+        }
     }
 }
