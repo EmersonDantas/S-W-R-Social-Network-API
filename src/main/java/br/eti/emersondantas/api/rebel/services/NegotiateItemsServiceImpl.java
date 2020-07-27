@@ -9,8 +9,11 @@ import br.eti.emersondantas.api.rebel.ItemRepository;
 import br.eti.emersondantas.api.rebel.Rebel;
 import br.eti.emersondantas.api.rebel.RebelRepository;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -22,7 +25,9 @@ public class NegotiateItemsServiceImpl implements NegotiateItemsService{
 
     private final ItemRepository itemRepository;
 
-    @Transactional
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    @Caching(evict = { @CacheEvict(cacheNames = Rebel.CACHE_NAME, key="#idFrom"), @CacheEvict(cacheNames = Rebel.CACHE_NAME, key="#idTo") })
     @Override
     public void negotiateItems(Long idFrom, Long idTo, List<Item> itemsFrom, List<Item> itemsTo) {
         Rebel rebelFrom = this.rebelRepository.findById(idFrom).orElseThrow(RebelNotFoundException::new);

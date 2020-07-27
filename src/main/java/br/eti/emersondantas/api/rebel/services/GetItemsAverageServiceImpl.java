@@ -2,6 +2,7 @@ package br.eti.emersondantas.api.rebel.services;
 
 import br.eti.emersondantas.api.rebel.ItemRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -13,6 +14,7 @@ public class GetItemsAverageServiceImpl implements GetItemsAverageService{
 
     private final ItemRepository itemRepository;
 
+    @Cacheable(cacheNames = "RebelItemsAverage", key="#root.method.name")
     @Override
     public HashMap<String, Double> getItemsAverage(){
         List<String> names = this.itemRepository.getAllDistinctName();

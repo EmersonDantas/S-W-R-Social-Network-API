@@ -42,6 +42,8 @@ public class Rebel implements Serializable {
 
     private static final long serialVersionUID = -7988612442966286011L;
 
+    public static final String CACHE_NAME = "RebelEntity";
+
     @ApiModelProperty(notes = "Rebel primary key", name = "id")
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "rebel_generator")
