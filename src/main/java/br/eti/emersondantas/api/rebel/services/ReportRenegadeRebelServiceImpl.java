@@ -5,6 +5,7 @@ import br.eti.emersondantas.api.rebel.Rebel;
 import br.eti.emersondantas.api.rebel.RebelRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
@@ -15,6 +16,13 @@ public class ReportRenegadeRebelServiceImpl implements ReportRenegadeRebelServic
 
     private final int RENEGADE_VALUE = 3;
 
+    @Caching(evict = {
+            @CacheEvict(cacheNames = Rebel.CACHE_NAME, key="#id"),
+            @CacheEvict(cacheNames = GetLostPointsByRenegadesServiceImpl.CACHE_NAME, allEntries = true),
+            @CacheEvict(cacheNames = GetItemsAverageServiceImpl.CACHE_NAME, allEntries = true),
+            @CacheEvict(cacheNames = GetRenegadePercentageServiceImpl.CACHE_NAME, allEntries = true),
+            @CacheEvict(cacheNames = ListRebelServiceImpl.CACHE_NAME, allEntries = true)
+    })
     @CacheEvict(cacheNames = Rebel.CACHE_NAME, key="#id")
     @Override
     public void report(Long id) {

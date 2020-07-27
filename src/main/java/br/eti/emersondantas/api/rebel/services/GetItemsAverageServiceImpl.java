@@ -14,7 +14,9 @@ public class GetItemsAverageServiceImpl implements GetItemsAverageService{
 
     private final ItemRepository itemRepository;
 
-    @Cacheable(cacheNames = "RebelItemsAverage", key="#root.method.name")
+    public static final String CACHE_NAME = "RebelItemsAverage";
+
+    @Cacheable(cacheNames = CACHE_NAME, key="#root.method.name")
     @Override
     public HashMap<String, Double> getItemsAverage(){
         List<String> names = this.itemRepository.getAllDistinctName();

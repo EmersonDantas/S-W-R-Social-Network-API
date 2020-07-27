@@ -2,6 +2,7 @@ package br.eti.emersondantas.api.rebel.services;
 
 import br.eti.emersondantas.api.rebel.RebelRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
@@ -10,8 +11,9 @@ public class GetRenegadePercentageServiceImpl implements GetRenegadePercentageSe
 
     private final RebelRepository rebelRepository;
 
+    public static final String CACHE_NAME = "RenegadePercentage";
 
-
+    @Cacheable(cacheNames = CACHE_NAME, key="#root.method.name")
     @Override
     public Double getRenegadePercentage() {
         Long total = this.rebelRepository.count();

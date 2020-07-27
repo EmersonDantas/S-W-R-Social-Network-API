@@ -27,7 +27,12 @@ public class NegotiateItemsServiceImpl implements NegotiateItemsService{
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @Caching(evict = { @CacheEvict(cacheNames = Rebel.CACHE_NAME, key="#idFrom"), @CacheEvict(cacheNames = Rebel.CACHE_NAME, key="#idTo") })
+    @Caching(evict = {
+            @CacheEvict(cacheNames = Rebel.CACHE_NAME, key="#idFrom"),
+            @CacheEvict(cacheNames = Rebel.CACHE_NAME, key="#idTo"),
+            @CacheEvict(cacheNames = GetItemsAverageServiceImpl.CACHE_NAME, allEntries = true),
+            @CacheEvict(cacheNames = ListRebelServiceImpl.CACHE_NAME, allEntries = true)
+    })
     @Override
     public void negotiateItems(Long idFrom, Long idTo, List<Item> itemsFrom, List<Item> itemsTo) {
         Rebel rebelFrom = this.rebelRepository.findById(idFrom).orElseThrow(RebelNotFoundException::new);

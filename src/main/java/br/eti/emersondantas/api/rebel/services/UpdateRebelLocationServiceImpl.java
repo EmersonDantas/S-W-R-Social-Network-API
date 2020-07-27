@@ -6,6 +6,7 @@ import br.eti.emersondantas.api.rebel.Rebel;
 import br.eti.emersondantas.api.rebel.RebelRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
@@ -14,7 +15,10 @@ public class UpdateRebelLocationServiceImpl implements UpdateRebelLocationServic
 
     private final RebelRepository rebelRepository;
 
-    @CacheEvict(cacheNames = Rebel.CACHE_NAME, key="#id")
+    @Caching(evict = {
+            @CacheEvict(cacheNames = Rebel.CACHE_NAME, key="#id"),
+            @CacheEvict(cacheNames = ListRebelServiceImpl.CACHE_NAME, allEntries = true)
+    })
     @Override
     public void updateLocation(Long id, Location location) {
         Rebel rebel = this.rebelRepository.findById(id).orElseThrow(RebelNotFoundException::new);
