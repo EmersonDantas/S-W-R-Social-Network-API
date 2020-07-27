@@ -19,5 +19,12 @@ spring:
         baseline-on-migrate: false
         locations: classpath:/db/migration
 
+    cache:
+        type: redis
+
+    redis:
+        host: localhost
+        port: 6379
+
 renegade:
     value: 3
