@@ -13,6 +13,8 @@ import lombok.NonNull;
 import lombok.ToString;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.redis.core.RedisHash;
+import org.springframework.data.redis.core.index.Indexed;
 
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -37,7 +39,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @ToString(exclude = {"items"})
 @Builder(builderClassName = "Builder")
-@Entity
+//@Entity
+@RedisHash
 public class Rebel implements Serializable {
 
     private static final long serialVersionUID = -7988612442966286011L;
@@ -48,11 +51,12 @@ public class Rebel implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "rebel_generator")
     @SequenceGenerator(name = "rebel_generator", sequenceName = "rebel_sequence", allocationSize = 1)
-    private Long id;
+    private String id;
 
     @ApiModelProperty(notes = "Rebel name", name = "name", required = true)
     @NonNull
     @Column(nullable = false)
+    @Indexed
     private String name;
 
     @ApiModelProperty(notes = "Rebel birth date", name = "dateOfBirth", required = true)

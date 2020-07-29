@@ -20,7 +20,7 @@ public class UpdateRebelLocationServiceImpl implements UpdateRebelLocationServic
             @CacheEvict(cacheNames = ListRebelServiceImpl.CACHE_NAME, allEntries = true)
     })
     @Override
-    public void updateLocation(Long id, Location location) {
+    public void updateLocation(String id, Location location) {
         Rebel rebel = this.rebelRepository.findById(id).orElseThrow(RebelNotFoundException::new);
         rebel.setLocation(location);
         this.rebelRepository.save(rebel);

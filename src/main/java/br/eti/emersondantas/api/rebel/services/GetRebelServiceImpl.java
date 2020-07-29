@@ -15,7 +15,7 @@ public class GetRebelServiceImpl implements GetRebelService{
 
     @Cacheable(cacheNames = Rebel.CACHE_NAME, key="#id")
     @Override
-    public Rebel get(Long id) {
+    public Rebel get(String id) {
         return this.rebelRepository.findById(id).orElseThrow(RebelNotFoundException::new);
     }
 }

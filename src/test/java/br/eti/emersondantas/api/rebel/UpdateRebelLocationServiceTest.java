@@ -20,6 +20,7 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -41,9 +42,9 @@ public class UpdateRebelLocationServiceTest {
     @Test
     @DisplayName("update a rebel location test successfully")
     void shouldUpdateRebelLocation() throws ParseException {
-        when(this.rebelRepository.findById(1L)).thenReturn(Optional.of(createRebel().build()));
+        when(this.rebelRepository.findById("1")).thenReturn(Optional.of(createRebel().build()));
 
-        this.updateRebelLocationService.updateLocation(1L, new Location(1.0,1.0,"updated"));
+        this.updateRebelLocationService.updateLocation("1", new Location(1.0,1.0,"updated"));
 
         ArgumentCaptor<Rebel> argumentCaptor = ArgumentCaptor.forClass(Rebel.class);
         verify(rebelRepository).save(argumentCaptor.capture());
@@ -60,7 +61,7 @@ public class UpdateRebelLocationServiceTest {
     @Test
     @DisplayName("update rebel location with except")
     void shouldThrowRebelNotFoundException(){
-        when(this.rebelRepository.findById(anyLong())).thenReturn(Optional.empty());
-        assertThrows(RebelNotFoundException.class, () -> this.updateRebelLocationService.updateLocation(1L, new Location(1.0,1.0,"updated")));
+        when(this.rebelRepository.findById(anyString())).thenReturn(Optional.empty());
+        assertThrows(RebelNotFoundException.class, () -> this.updateRebelLocationService.updateLocation("1", new Location(1.0,1.0,"updated")));
     }
 }

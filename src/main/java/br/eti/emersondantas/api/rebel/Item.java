@@ -11,6 +11,8 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.data.redis.core.RedisHash;
+import org.springframework.data.redis.core.index.Indexed;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -27,9 +29,10 @@ import java.io.Serializable;
 @AllArgsConstructor
 @RequiredArgsConstructor
 @EqualsAndHashCode(of = {"id"})
-@ToString()
+@ToString
 @Builder(builderClassName = "Builder")
-@Entity
+//@Entity
+@RedisHash
 public class Item implements Serializable {
 
     private static final long serialVersionUID = -2660202316072114081L;
@@ -38,10 +41,11 @@ public class Item implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "item_generator")
     @SequenceGenerator(name = "item_generator", sequenceName = "item_sequence", allocationSize = 1)
-    private Long id;
+    private String id;
 
     @ApiModelProperty(notes = "Item name", name = "name", required = true)
     @NonNull
+    @Indexed
     private String name;
 
     @ApiModelProperty(notes = "Amount of this item", name = "amount", required = true)

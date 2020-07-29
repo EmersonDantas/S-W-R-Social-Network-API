@@ -5,5 +5,5 @@ import br.eti.emersondantas.api.rebel.Rebel;
 @FunctionalInterface
 public interface GetRebelService {
 
-    Rebel get(Long id);
+    Rebel get(String id);
 }

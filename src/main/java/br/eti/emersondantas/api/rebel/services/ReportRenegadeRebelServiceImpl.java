@@ -25,7 +25,7 @@ public class ReportRenegadeRebelServiceImpl implements ReportRenegadeRebelServic
     })
     @CacheEvict(cacheNames = Rebel.CACHE_NAME, key="#id")
     @Override
-    public void report(Long id) {
+    public void report(String id) {
         Rebel rebel = this.rebelRepository.findById(id).orElseThrow(RebelNotFoundException::new);
         rebel.setDenunciations(rebel.getDenunciations()+1);
         if(rebel.getDenunciations() == RENEGADE_VALUE) rebel.markAsRenegade();

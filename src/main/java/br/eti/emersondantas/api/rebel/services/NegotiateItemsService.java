@@ -7,6 +7,6 @@ import java.util.List;
 @FunctionalInterface
 public interface NegotiateItemsService {
 
-    void negotiateItems(Long idFrom, Long idTo, List<Item> itemsFrom, List<Item> itemsTo);
+    void negotiateItems(String idFrom, String idTo, List<Item> itemsFrom, List<Item> itemsTo);
 
 }

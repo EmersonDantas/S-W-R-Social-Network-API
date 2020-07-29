@@ -35,7 +35,7 @@ public class RebelDTO implements Serializable {
     @ApiModelProperty(notes = "Rebel primary key", name = "id", required = true)
     @NotEmpty
     @NonNull
-    private Long id;
+    private String id;
 
     @ApiModelProperty(notes = "Rebel name", name = "name", required = true)
     @NotEmpty

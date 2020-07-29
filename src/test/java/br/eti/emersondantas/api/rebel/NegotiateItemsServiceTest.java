@@ -24,6 +24,7 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
@@ -53,37 +54,37 @@ public class NegotiateItemsServiceTest {
     @Test
     @DisplayName("make a item negotiation test successfully")
     void shouldMakeANegotiation() throws ParseException { //TODO: Refactoring
-        Rebel rebelFrom = createRebel().id(1L).build();
+        Rebel rebelFrom = createRebel().id("1").build();
 
         List<Item> itemsRebelFrom = new ArrayList<>(Arrays.asList(
-                new Item(1L, "comida", 6, 1, rebelFrom)
+                new Item("1", "comida", 6, 1, rebelFrom)
         ));
 
         rebelFrom.setItems(itemsRebelFrom);
 
-        Rebel rebelTo = createRebel().id(2L).build();
+        Rebel rebelTo = createRebel().id("2").build();
 
         List<Item> itemsRebelTo = new ArrayList<>(Arrays.asList(
-                new Item(2L, "arma", 1, 4, rebelTo),
-                new Item(3L, "agua", 1, 2, rebelTo)
+                new Item("2", "arma", 1, 4, rebelTo),
+                new Item("3", "agua", 1, 2, rebelTo)
         ));
 
         rebelTo.setItems(itemsRebelTo);
 
         List<Item> itemsFrom = new ArrayList<>(Arrays.asList(
-                new Item(1L, "comida", 6, 1, rebelFrom)
+                new Item("1", "comida", 6, 1, rebelFrom)
         ));
 
         List<Item> itemsTo = new ArrayList<>(Arrays.asList(
-                new Item(2L, "arma", 1, 4, rebelTo),
-                new Item(3L, "agua", 1, 2, rebelTo)
+                new Item("2", "arma", 1, 4, rebelTo),
+                new Item("3", "agua", 1, 2, rebelTo)
         ));
 
 
-        when(this.rebelRepository.findById(1L)).thenReturn(Optional.of(rebelFrom));
-        when(this.rebelRepository.findById(2L)).thenReturn(Optional.of(rebelTo));
+        when(this.rebelRepository.findById("1")).thenReturn(Optional.of(rebelFrom));
+        when(this.rebelRepository.findById("2")).thenReturn(Optional.of(rebelTo));
 
-        this.negotiateItemsService.negotiateItems(1L, 2L, itemsFrom, itemsTo);
+        this.negotiateItemsService.negotiateItems("1", "2", itemsFrom, itemsTo);
 
         ArgumentCaptor<Item> argumentCaptor = ArgumentCaptor.forClass(Item.class);
         verify(this.itemRepository, times(6)).save(argumentCaptor.capture());
@@ -91,19 +92,19 @@ public class NegotiateItemsServiceTest {
         List<Item> result = argumentCaptor.getAllValues();
 
         assertAll("rebel",
-                () -> assertThat(result.get(0).getRebel().getId(), is(2L)),
-                () -> assertThat(result.get(1).getRebel().getId(), is(1L)),
-                () -> assertThat(result.get(2).getRebel().getId(), is(2L)),
-                () -> assertThat(result.get(3).getRebel().getId(), is(1L)),
-                () -> assertThat(result.get(4).getRebel().getId(), is(1L)),
-                () -> assertThat(result.get(5).getRebel().getId(), is(2L))
+                () -> assertThat(result.get(0).getRebel().getId(), is("2")),
+                () -> assertThat(result.get(1).getRebel().getId(), is("1")),
+                () -> assertThat(result.get(2).getRebel().getId(), is("2")),
+                () -> assertThat(result.get(3).getRebel().getId(), is("1")),
+                () -> assertThat(result.get(4).getRebel().getId(), is("1")),
+                () -> assertThat(result.get(5).getRebel().getId(), is("2"))
         );
     }
 
     @Test
     @DisplayName("make items negotiation with except")
     void shouldThrowRebelNotFoundException(){
-        when(this.rebelRepository.findById(anyLong())).thenReturn(Optional.empty());
-        assertThrows(RebelNotFoundException.class, () -> this.negotiateItemsService.negotiateItems(1L, 2L, createRebel().build().getItems(), null));
+        when(this.rebelRepository.findById(anyString())).thenReturn(Optional.empty());
+        assertThrows(RebelNotFoundException.class, () -> this.negotiateItemsService.negotiateItems("1", "2", createRebel().build().getItems(), null));
     }
 }

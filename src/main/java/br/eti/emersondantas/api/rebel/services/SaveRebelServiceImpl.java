@@ -9,6 +9,9 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 public class SaveRebelServiceImpl implements SaveRebelService{
@@ -24,13 +27,16 @@ public class SaveRebelServiceImpl implements SaveRebelService{
     })
     @Override
     public void save(Rebel rebel) {
+        List<Item> rebelItems = rebel.getItems();
         Rebel savedRebel = this.rebelRepository.save(rebel);
-
+        List<Item> savedItems = new ArrayList<>();
         if(savedRebel != null){
             for (Item item: rebel.getItems()) {
-                item.setRebel(savedRebel);
+                savedItems.add(this.itemRepository.save(item));
             }
-            this.itemRepository.saveAll(savedRebel.getItems());
+            savedRebel.setItems(savedItems);
+            this.rebelRepository.save(savedRebel);
         }
+
     }
 }

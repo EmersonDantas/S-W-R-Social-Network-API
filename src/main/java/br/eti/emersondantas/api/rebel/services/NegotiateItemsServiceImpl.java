@@ -34,7 +34,7 @@ public class NegotiateItemsServiceImpl implements NegotiateItemsService{
             @CacheEvict(cacheNames = ListRebelServiceImpl.CACHE_NAME, allEntries = true)
     })
     @Override
-    public void negotiateItems(Long idFrom, Long idTo, List<Item> itemsFrom, List<Item> itemsTo) {
+    public void negotiateItems(String idFrom, String idTo, List<Item> itemsFrom, List<Item> itemsTo) {
         Rebel rebelFrom = this.rebelRepository.findById(idFrom).orElseThrow(RebelNotFoundException::new);
         Rebel rebelTo = this.rebelRepository.findById(idTo).orElseThrow(RebelNotFoundException::new);
 

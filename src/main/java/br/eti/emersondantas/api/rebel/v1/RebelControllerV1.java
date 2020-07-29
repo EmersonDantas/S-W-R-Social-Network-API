@@ -69,7 +69,7 @@ public class RebelControllerV1 {
             @ApiResponse(code = 404, message = "Rebel not found!")
     })
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public RebelDTO get(@ApiParam(value = "Wanted rebel id", required = true, example = "1") @PathVariable("id") Long id) {
+    public RebelDTO get(@ApiParam(value = "Wanted rebel id", required = true, example = "1") @PathVariable("id") String id) {
         return RebelDTO.from(this.getRebelService.get(id));
     }
 
@@ -99,7 +99,7 @@ public class RebelControllerV1 {
             @ApiResponse(code = 204, message = "Rebel not found!")
     })
     @PatchMapping(value = "report-rebel/{id}")
-    public void report(@ApiParam(value = "Reported rebel id", required = true, example = "1") @PathVariable("id") Long id) {
+    public void report(@ApiParam(value = "Reported rebel id", required = true, example = "1") @PathVariable("id") String id) {
         this.reportRenegadeRebelService.report(id);
     }
 
@@ -121,7 +121,7 @@ public class RebelControllerV1 {
             @ApiResponse(code = 404, message = "Rebel not found!")
     })
     @PatchMapping(value = "location/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void updateLocation(@PathVariable("id") Long id, @RequestBody Location location) {
+    public void updateLocation(@PathVariable("id") String id, @RequestBody Location location) {
         this.updateRebelLocationService.updateLocation(id, location);
     }
 
@@ -133,8 +133,8 @@ public class RebelControllerV1 {
             @ApiResponse(code = 400, message = "Unfair or invalid trading!")
     })
     @PatchMapping(value = "negotiate-items/{id-from}/{id-to}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void negotiateItems(@ApiParam(value = "Rebel negotiator id", required = true, example = "1") @PathVariable("id-from") Long idFrom,
-                               @ApiParam(value = "Rebel who wants to negotiate id", required = true, example = "1") @PathVariable("id-to") Long idTo,
+    public void negotiateItems(@ApiParam(value = "Rebel negotiator id", required = true, example = "1") @PathVariable("id-from") String idFrom,
+                               @ApiParam(value = "Rebel who wants to negotiate id", required = true, example = "1") @PathVariable("id-to") String idTo,
                                @ApiParam(value = "Negotiation items, contains items from the negotiator and the receiver", required = true) @RequestBody Negotiation negotiation) {
         this.negotiateItemsService.negotiateItems(idFrom, idTo, negotiation.getItemsFrom(), negotiation.getItemsTo());
     }

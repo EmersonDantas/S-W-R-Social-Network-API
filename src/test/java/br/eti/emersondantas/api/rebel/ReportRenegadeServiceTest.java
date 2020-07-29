@@ -20,6 +20,7 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -46,12 +47,12 @@ public class ReportRenegadeServiceTest {
     @Test
     @DisplayName("report rebel successfully")
     void shouldReportRenegadeRebel() throws ParseException {
-        when(this.rebelRepository.findById(anyLong())).thenReturn(
+        when(this.rebelRepository.findById(anyString())).thenReturn(
                 Optional.of(createRebel().build())
         );
 
-        this.reportRenegadeRebelService.report(1L);
-        Rebel reportedRebel = this.getRebelService.get(1L);
+        this.reportRenegadeRebelService.report("1");
+        Rebel reportedRebel = this.getRebelService.get("1");
 
         assertAll(
           "rebel",
@@ -65,7 +66,7 @@ public class ReportRenegadeServiceTest {
     @Test
     @DisplayName("report rebel that does not exist - except")
     void shouldThrowRebelNotFoundException(){
-        when(this.rebelRepository.findById(anyLong())).thenReturn(Optional.empty());
-        assertThrows(RebelNotFoundException.class, () -> this.reportRenegadeRebelService.report(1L));
+        when(this.rebelRepository.findById(anyString())).thenReturn(Optional.empty());
+        assertThrows(RebelNotFoundException.class, () -> this.reportRenegadeRebelService.report("1"));
     }
 }

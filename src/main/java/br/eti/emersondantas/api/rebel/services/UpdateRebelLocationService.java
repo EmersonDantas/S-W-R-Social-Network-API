@@ -5,5 +5,5 @@ import br.eti.emersondantas.api.rebel.Location;
 @FunctionalInterface
 public interface UpdateRebelLocationService {
 
-    void updateLocation(Long id, Location location);
+    void updateLocation(String id, Location location);
 }

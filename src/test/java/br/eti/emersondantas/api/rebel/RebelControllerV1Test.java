@@ -35,6 +35,7 @@ import java.util.HashMap;
 import static br.eti.emersondantas.api.rebel.builders.RebelBuilder.createRebel;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
@@ -94,12 +95,12 @@ public class RebelControllerV1Test {
     @Test
     @DisplayName("Test /api/v1/rebels/{id}")
     void mustReturnARebel() throws Exception {
-        when(this.getRebelService.get(anyLong())).thenReturn(createRebel().id(1L).build());
+        when(this.getRebelService.get(anyString())).thenReturn(createRebel().id("1").build());
 
-        this.mockMvc.perform(get("/api/v1/rebels/{id}", 1L)
+        this.mockMvc.perform(get("/api/v1/rebels/{id}", "1")
                 .accept(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", is(1)))
+                .andExpect(jsonPath("$.id", is("1")))
                 .andDo(print());
     }
 
@@ -120,7 +121,7 @@ public class RebelControllerV1Test {
     void mustReturnRebelList() throws Exception {
         Pageable pageable = PageRequest.of(0, 10, Sort.by(Sort.Direction.fromString("ASC"), "id"));
         when(this.listRebelService.list(pageable)).thenReturn(
-                new PageImpl<>(new ArrayList<>(Arrays.asList(createRebel().id(1L).name("Chewbacca").build(), createRebel().id(2L).build())))
+                new PageImpl<>(new ArrayList<>(Arrays.asList(createRebel().id("1").name("Chewbacca").build(), createRebel().id("2").build())))
         );
 
         this.mockMvc.perform(get("/api/v1/rebels")
@@ -134,8 +135,8 @@ public class RebelControllerV1Test {
     @Test
     @DisplayName("Test /api/v1/rebels/report-rebel/{id}")
     void mustReportARenegadeRebel() throws Exception {
-        when(this.getRebelService.get(anyLong())).thenReturn(createRebel().id(1L).denunciations(2).build());
-        this.reportRenegadeRebelService.report(1L);
+        when(this.getRebelService.get(anyString())).thenReturn(createRebel().id("1").denunciations(2).build());
+        this.reportRenegadeRebelService.report("1");
 
         this.mockMvc.perform(patch("/api/v1/rebels/report-rebel/{id}", 1))
                 .andExpect(status().isAccepted());
@@ -154,7 +155,7 @@ public class RebelControllerV1Test {
     @Test
     @DisplayName("Test /api/v1/rebels/location/{id}")
     void mustUpdateARebelLocation() throws Exception {
-        when(this.getRebelService.get(anyLong())).thenReturn(createRebel().id(1L).build());
+        when(this.getRebelService.get(anyString())).thenReturn(createRebel().id("1").build());
 
         this.mockMvc.perform(patch("/api/v1/rebels/location/{id}", 1)
                 .contentType(MediaType.APPLICATION_JSON)
