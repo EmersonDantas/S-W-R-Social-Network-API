@@ -1,8 +1,8 @@
 package br.eti.emersondantas.api.rebel.services;
 
-import java.util.concurrent.Future;
+import java.util.concurrent.CompletableFuture;
 
 @FunctionalInterface
 public interface NotifyAllRebelsAsyncWithResultService {
-    Future<Boolean> notifyAllRebels(String message);
+    CompletableFuture<Boolean> notifyAllRebels(String message);
 }

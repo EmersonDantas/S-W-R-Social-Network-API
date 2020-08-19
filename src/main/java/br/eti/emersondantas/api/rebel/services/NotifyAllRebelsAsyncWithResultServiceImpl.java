@@ -1,33 +1,30 @@
 package br.eti.emersondantas.api.rebel.services;
 
-import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 
-import java.util.concurrent.Future;
+import java.util.concurrent.CompletableFuture;
 
-@RequiredArgsConstructor
 @Service
+@Slf4j
 public class NotifyAllRebelsAsyncWithResultServiceImpl implements NotifyAllRebelsAsyncWithResultService {
 
-    @Async
+    @Async("taskExecutorB")
     @Override
-    public Future<Boolean> notifyAllRebels(String message) {
-        AsyncResult<Boolean> result = null;
+    public CompletableFuture<Boolean> notifyAllRebels(String message) {
+        Boolean result = Boolean.FALSE;
         // Simulate method execution time
         long pause = 5000;
         try {
-            System.out.println("A");
+            log.info("A - sending notifications. Priority: {}", Thread.currentThread().getPriority());
             Thread.sleep(pause);
-            System.out.println("B");
-            System.out.println(message);
-            result = new AsyncResult<>(Boolean.TRUE);
+            result = Boolean.TRUE;
+            log.info("B - successfully notified, returning result: {}", result);
         } catch (Exception e) {
-            result = new AsyncResult<>(Boolean.FALSE);
-            System.out.println("Exception on notify all rebels");
+            log.error("Exception on notify all rebels");
         }
 
-        return result;
+        return CompletableFuture.completedFuture(result);
     }
 }

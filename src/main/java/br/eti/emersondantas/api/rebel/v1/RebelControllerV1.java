@@ -4,13 +4,24 @@ import br.eti.emersondantas.api.rebel.Location;
 import br.eti.emersondantas.api.rebel.Negotiation;
 import br.eti.emersondantas.api.rebel.Rebel;
 import br.eti.emersondantas.api.rebel.RebelDTO;
-import br.eti.emersondantas.api.rebel.services.*;
+import br.eti.emersondantas.api.rebel.services.GetItemsAverageService;
+import br.eti.emersondantas.api.rebel.services.GetLostPointsByRenegadesService;
+import br.eti.emersondantas.api.rebel.services.GetRebelService;
+import br.eti.emersondantas.api.rebel.services.GetRenegadePercentageService;
+import br.eti.emersondantas.api.rebel.services.ListRebelService;
+import br.eti.emersondantas.api.rebel.services.NegotiateItemsService;
+import br.eti.emersondantas.api.rebel.services.NotifyAllRebelsAsyncService;
+import br.eti.emersondantas.api.rebel.services.NotifyAllRebelsAsyncWithResultService;
+import br.eti.emersondantas.api.rebel.services.ReportRenegadeRebelService;
+import br.eti.emersondantas.api.rebel.services.SaveRebelService;
+import br.eti.emersondantas.api.rebel.services.UpdateRebelLocationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -29,12 +40,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.HashMap;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 
 @RestController
 @RequiredArgsConstructor
 @Api(value = "Rebel")
+@Slf4j
 @RequestMapping(value = "/api/v1/rebels")
 public class RebelControllerV1 {
 
@@ -193,17 +205,16 @@ public class RebelControllerV1 {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Notifications sent.")
     })
-    @PatchMapping(value = "notify-rebels")
-    public void notifyAllRebels(@ApiParam(value = "wait", required = false, example = "true") @RequestParam(value = "wait", defaultValue = "false") boolean waitForAsyncResult, @RequestBody HashMap<String, String> messageJson) {
+    @PostMapping(value = "notify-rebels")
+    public void notifyAllRebels(@ApiParam(value = "wait", required = false, example = "true") @RequestParam(value = "wait", defaultValue = "false") boolean waitForAsyncResult, @RequestBody HashMap<String, String> messageJson) throws ExecutionException, InterruptedException {
         if(waitForAsyncResult){
-            Future<Boolean> result = this.notifyAllRebelsAsyncWithResultService.notifyAllRebels(messageJson.get("message"));
-            try {
-                System.out.println(result.get());
-            } catch (InterruptedException | ExecutionException e) {
-                throw new RuntimeException("Error when notify all rebels.");
-            }
+            log.info("Calling async service and waiting result. Priority: {}", Thread.currentThread().getPriority());
+            CompletableFuture<Boolean> result = this.notifyAllRebelsAsyncWithResultService.notifyAllRebels(messageJson.get("message"));
+            log.info("Async call result: {}", result.get());
         }else{
+            log.info("Calling async service with not result. Priority: {}", Thread.currentThread().getPriority());
             this.notifyAllRebelsAsyncService.notifyAllRebels(messageJson.get("message"));
         }
+        log.info("Completed request");
     }
 }
